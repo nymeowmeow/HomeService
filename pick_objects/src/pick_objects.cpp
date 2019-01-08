@@ -36,7 +36,7 @@ int main(int argc, char** argv){
 
   //move_base_msgs::MoveBaseGoal pickUpGoal = createGoal(2.0, 4.0, -0.000246, 1);
   move_base_msgs::MoveBaseGoal pickUpGoal = createGoal(2.0, 5.0, -0.000246, 1);
-  move_base_msgs::MoveBaseGoal dropOffGoal = createGoal(-5.0, 1.0, -0.000247, 1);
+  move_base_msgs::MoveBaseGoal dropOffGoal = createGoal(-5.0, 5.0, -0.000247, 1);
 
    // Send the goal position and orientation for the robot to reach
   ROS_INFO("Sending pickup goal");

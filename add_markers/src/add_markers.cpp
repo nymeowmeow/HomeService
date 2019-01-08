@@ -142,7 +142,7 @@ Controller::odom_callback(const nav_msgs::Odometry::ConstPtr& msg)
             newstate = PICKUP; 
     } else if (state_ == PICKUP) {
         float fromdropoff = pow(pow(dropoffx_ - posx, 2) + pow(dropoffy_ - posy, 2), 0.5);
-        if (fabs(fromdropoff) < THRESHOLD)
+        if (fabs(fromdropoff) < THRESHOLD*3)
             newstate = DROPOFF;
     }
     if (state_ != newstate)
@@ -156,6 +156,7 @@ Controller::odom_callback(const nav_msgs::Odometry::ConstPtr& msg)
             //remove marker at pickup location
             marker_.publish((uint)visualization_msgs::Marker::DELETE);
             //publish marker to dropoff location
+            marker_.setPosition(dropoffx_, dropoffy_);
             marker_.publish((uint)visualization_msgs::Marker::ADD);
         }
         printf("state change from %d to %d\n",state_, newstate);
@@ -173,7 +174,7 @@ int main( int argc, char** argv )
    uint32_t shape = visualization_msgs::Marker::CUBE;
 
    ros::Publisher marker_pub = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-   Controller controller(marker_pub, shape, 2, 5, -5, 1.0);
+   Controller controller(marker_pub, shape, 2, 5, -5, 5.0);
    ros::Subscriber sub = n.subscribe("/odom", 1000, &Controller::odom_callback, &controller);
 
    ros::spin();
